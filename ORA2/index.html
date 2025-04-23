@@ -662,21 +662,24 @@
       <div class="container">
         <h3>Admin menu top: Chỉnh sửa menu top</h3>
         <ul id="menuList" class="w3-ul w3-card-4"></ul>
-        <button onclick="addMenuItem()" class="w3-button w3-green w3-margin-top">➕ Thêm menu</button>
+        <!-- <button onclick="addMenuItem()" class="w3-button w3-green w3-margin-top">➕ Thêm menu</button> -->
         <script>
           const menuItems = [
+            { text: "Trang chủ", contentId: "home" },
             { text: "Thông tin môn học", contentId: "info" },
             { text: "Các công nghệ web", contentId: "web-tech" },
             { text: "Thông tin sinh viên", contentId: "student-info" },
           ];
           // first render the top navbar
-          // renderTopNavbar();
-          
+          renderTopNavbar();
+          renderAdminMenu();
+
           function renderTopNavbar() {
             const dynamicMenu = document.getElementById("dynamicMenu");
             dynamicMenu.innerHTML = "";
 
             menuItems.forEach(item => {
+              if (item.contentId === "home") return; // Bỏ qua admin page
               const a = document.createElement("a");
               a.className = "w3-bar-item w3-button";
               a.href = "javascript:void(0)";
@@ -699,12 +702,23 @@
               const li = document.createElement("li");
               li.className = "w3-bar";
             
-              li.innerHTML = `
+              if (item.contentId ==="home"){
+                li.innerHTML = `
                 <span class="w3-bar-item">${item.text}</span>
+                <button class = "w3-bar-item w3-button w3-right w3-green" onclick = "addMenuItem(${index})">➕</button>
+                <button class="w3-bar-item w3-button w3-right w3-grey" onclick="alert('Xem: ${item.text}')">👁️</button>
+                `;
+              }
+              else {
+                li.innerHTML = `
+                <span class="w3-bar-item">${item.text}</span>
+                <button class = "w3-bar-item w3-button w3-right w3-green" onclick = "addMenuItem(${index})">➕</button>
                 <button class="w3-bar-item w3-button w3-right w3-red" onclick="deleteMenuItem(${index})">❌</button>
                 <button class="w3-bar-item w3-button w3-right w3-blue" onclick="editMenuItem(${index})">✏️</button>
                 <button class="w3-bar-item w3-button w3-right w3-grey" onclick="alert('Xem: ${item.text}')">👁️</button>
               `;
+              }
+              
               menuList.appendChild(li);
             });
           }
@@ -724,10 +738,15 @@
             }
           }
         
-          function addMenuItem() {
+          function addMenuItem(index) {
             const newName = prompt("Nhập tên menu mới:");
             if (newName) {
-              menuItems.push({ text: newName, contentId: "custom-" + Date.now() });
+              const newItem = {
+                text: newName,
+                contentId: "custom-" + Date.now() // Tạo ID duy nhất
+              }
+            
+            menuItems.splice(index + 1, 0, newItem); // Thêm vào sau item hiện tại
               renderAdminMenu();
               renderTopNavbar();
             }
