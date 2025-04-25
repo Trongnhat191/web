@@ -43,7 +43,8 @@ function showContent(sectionId) {
     <a class="w3-bar-item w3-button w3-hover-black" href="#seminar">Thông tin Seminar</a>
     <a class="w3-bar-item w3-button w3-hover-black" href="#company">Thông tin công ty quan tâm</a>
   `;
-  } else if (sectionId === 'info') {
+  } 
+  else if (sectionId === 'info') {
     sidebar.innerHTML = `
     <h4 class="w3-bar-item"><b>Thông tin môn học</b></h4>
     <a class="w3-bar-item w3-button w3-hover-black" href="#summaryVN">Mô tả tóm tắt học phần (tiếng Việt) (*)</a>
